@@ -1,0 +1,26 @@
+body {
+    background-color: #f8f9fa; /* Color de fondo claro */
+}
+
+.dash-graph {
+    border: 2px solid #007bff; /* Borde azul para los gráficos */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.btn-custom {
+    background-color: #28a745; /* Botón verde */
+    color: white; /* Texto blanco */
+}
+
+.btn-custom:hover {
+    background-color: #218838; /* Color al pasar el mouse */
+}
+
+h1, h3 {
+    color: #343a40; /* Títulos oscuros */
+}
+
+.card {
+    background-color: #ffffff; /* Fondo blanco para las tarjetas */
+    border: 1px solid #dee2e6; /* Borde gris claro */
+}
