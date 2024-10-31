@@ -85,14 +85,26 @@ app.layout = html.Div([
      Input("btn-consulta-3", "n_clicks")]
 )
 def actualizar_graficos_fijos(n1, n2, n3):
-    # Consulta 1: Total de Docentes Femeninos con Doctorado en 2014
-    total_femeninos_doctorado_2014 = df[(df['genero_docente'] == 'FEMENINO') &
-                                        (df['maximo_nivel_formacion_docente'] == 'DOCTORADO') &
-                                        (df['año'] == 2014)]
-    cantidad_femeninos_doctorado_2014 = total_femeninos_doctorado_2014['numero_docentes'].sum()
-    fig1 = px.bar(x=["Docentes Femeninos con Doctorado en 2014"], y=[cantidad_femeninos_doctorado_2014],
-                  title="Cantidad de Docentes Femeninos con Doctorado en 2014")
+    # Consulta 1: Total de Docentes Femeninos con Doctorado en 2014, 2015 y 2016
+    anios = [2014, 2015, 2016]
+    cantidad_femeninos_doctorado = []
 
+    for anio in anios:
+        total_femeninos_doctorado = df[(df['genero_docente'] == 'FEMENINO') &
+                                        (df['maximo_nivel_formacion_docente'] == 'DOCTORADO') &
+                                        (df['año'] == anio)]
+        cantidad = total_femeninos_doctorado['numero_docentes'].sum()
+        cantidad_femeninos_doctorado.append(cantidad)
+
+    # Cambiar años a cadenas para evitar el problema de los números continuos
+    anios_str = [str(anio) for anio in anios]
+
+    fig1 = px.bar(x=anios_str, y=cantidad_femeninos_doctorado,
+                  title="Cantidad de Docentes Femeninos con Doctorado en 2014, 2015 y 2016",
+                  labels={'x': 'Año', 'y': 'Cantidad de Docentes'},
+                  text=cantidad_femeninos_doctorado)
+    fig1.update_traces(texttemplate='%{text}', textposition='outside')
+    fig1.update_layout(yaxis_title='Cantidad de Docentes', xaxis_title='Año')
     # Consulta 2: Total de Mujeres por Máximo Nivel de Formación
     fig2 = px.bar(df[df['genero_docente'] == 'FEMENINO'],
                   x="maximo_nivel_formacion_docente", y="numero_docentes", title="Total de Mujeres por Máximo Nivel de Formación")
