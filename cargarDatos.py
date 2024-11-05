@@ -12,16 +12,16 @@ conexion = mysql.connector.connect(
 cursor = conexion.cursor()
 
 # Lista de archivos que deseas cargar
-archivos = ['Docentes_2014.xlsx', 'Docentes_2015.xlsx', 'Docentes_2016.xlsx']
+archivos = ['Docentes_2021.xlsx', 'Docentes_2022.xlsx', 'Docentes_2023.xlsx']
 
 # Definir el query de inserción
 insert_query = """
 INSERT INTO datos (
-    codigo_institucion, ies_padre, institucion_educacion_superior, principal_o_seccional, sector_ies,
-    caracter_ies, departamento_domicilio_ies, codigo_municipio, municipio_domicilio_ies, genero_docente,
-    tipo_documento, maximo_nivel_formacion_docente, tiempo_dedicacion_docente, tipo_contrato_docente,
+    codigo_institucion, ies_padre, institucion_educacion_superior, principal_o_seccional, id_sector_ies ,sector_ies, id_caracter_ies,
+    caracter_ies, id_departamento_domicilio_ies, departamento_domicilio_ies, codigo_municipio, municipio_domicilio_ies, id_genero , genero_docente,
+    id_maximo_nivel_formacion_docente, maximo_nivel_formacion_docente, id_tiempo_dedicacion_docente, tiempo_dedicacion_docente, id_tipo_contrato_docente, tipo_contrato_docente,
     año, semestre, numero_docentes
-) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 """
 
 # Cargar cada archivo en la tabla de MySQL
