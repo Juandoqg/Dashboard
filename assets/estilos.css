@@ -1,11 +1,19 @@
 /* Estilos generales */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Fondo claro */
+    margin: 0;
+    padding: 0;
 }
 
 /* Sección de consultas fijas */
 .card-header {
     font-weight: bold;
+    font-size: 1.2rem;
+    color: #007bff;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 /* Botón personalizado */
@@ -13,9 +21,11 @@ body {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 .btn-custom:hover {
@@ -30,15 +40,78 @@ html.Div {
 /* Sección de consultas variables */
 h3 {
     font-weight: bold;
+    color: #333;
+    font-size: 1.3rem;
 }
 
 /* Slider y Dropdown */
 .dcc-Slider, .dcc-Dropdown {
     margin-top: 10px;
+    border-radius: 5px;
+}
+
+/* Sección de Checklist (Checkboxes) */
+.dcc-Checklist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.dcc-Checklist label {
+    font-weight: normal;
+    font-size: 1rem;
+    color: #333;
+    display: inline-block;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.dcc-Checklist input[type="checkbox"] {
+    margin-right: 10px;
+    transition: transform 0.2s ease;
+}
+
+.dcc-Checklist input[type="checkbox"]:checked {
+    background-color: #007bff;
+    border-color: #0056b3;
+}
+
+.dcc-Checklist input[type="checkbox"]:hover {
+    transform: scale(1.1);
+}
+
+.dcc-Checklist input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 /* Cifras relevantes */
 #cifras-relevantes div {
     font-weight: bold;
-    margin-top: 10px;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    color: #333;
+}
+
+#cifras-relevantes div:first-child {
+    color: #007bff;
+}
+
+#cifras-relevantes div {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección general del layout */
+html {
+    background-color: #f8f9fa;
+}
+
+.card-body {
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
