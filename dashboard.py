@@ -156,9 +156,12 @@ def actualizar_grafico_variable(seleccion, anios_seleccionados, genero_seleccion
     
     if seleccion == "distribucion_genero_nivel":
         # Distribución de Docentes por Género y Nivel
-        fig = px.histogram(datos_filtrados, x="genero_docente", color="maximo_nivel_formacion_docente", 
+        fig = px.histogram(datos_filtrados, x="genero_docente", y="numero_docentes",  color="maximo_nivel_formacion_docente", 
                            title="Distribución de Docentes por Género y Nivel de Formación",
                            labels={'genero_docente': 'Género', 'maximo_nivel_formacion_docente': 'Nivel de Formación'})
+        
+        # Actualizar el título del eje Y
+        fig.update_layout(yaxis_title="Cantidad")
     
     elif seleccion == "total_por_tipo_contrato":
         # Total de Docentes por Tipo de Contrato
@@ -177,7 +180,8 @@ def actualizar_grafico_variable(seleccion, anios_seleccionados, genero_seleccion
     
     return fig
 
-# Callback para cifras relevantes
+
+
 # Callback para cifras relevantes
 @app.callback(
     Output("cifras-relevantes", "children"),
