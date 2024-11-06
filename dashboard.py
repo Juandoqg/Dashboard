@@ -32,7 +32,7 @@ app.layout = html.Div([
     # Sección de Consultas Fijas con diseño de cuadrícula
     dbc.Row([
         dbc.Col(dbc.Card([
-            dbc.CardHeader("Consulta 1: Docentes Femeninos con Doctorado (2014-2016)"),
+            dbc.CardHeader("Consulta 1: Docentes Femeninos con Doctorado (2021-2023)"),
             dbc.CardBody([
                 dcc.Graph(id="grafico-consulta-fija-1"),
                 html.Button("Ejecutar Consulta 1", id="btn-consulta-1", className="btn btn-custom"),
@@ -170,13 +170,22 @@ def mostrar_cifras_relevantes(n1, n2, n3):
     total_hombres = df[df['genero_docente'] == 'MASCULINO']['numero_docentes'].sum()
     total_mujeres = df[df['genero_docente'] == 'FEMENINO']['numero_docentes'].sum()
     nivel_formacion_comun = df['maximo_nivel_formacion_docente'].mode()[0]
+    total_docentes_doctorado = df[df['maximo_nivel_formacion_docente'] == 'DOCTORADO']['numero_docentes'].sum()
+    total_mujeres_doctorado = df[(df['genero_docente'] == 'FEMENINO') & 
+                                 (df['maximo_nivel_formacion_docente'] == 'DOCTORADO')]['numero_docentes'].sum()
+    total_hombres_doctorado = df[(df['genero_docente'] == 'MASCULINO') & 
+                                 (df['maximo_nivel_formacion_docente'] == 'DOCTORADO')]['numero_docentes'].sum()
 
     return [
         html.Div(f"Total de Docentes: {total_docentes}", style={'fontWeight': 'bold'}),
         html.Div(f"Total de Hombres: {total_hombres}", style={'fontWeight': 'bold'}),
         html.Div(f"Total de Mujeres: {total_mujeres}", style={'fontWeight': 'bold'}),
         html.Div(f"Nivel de Formación más Común: {nivel_formacion_comun}", style={'fontWeight': 'bold'}),
+        html.Div(f"Total de Docentes con Doctorado: {total_docentes_doctorado}", style={'fontWeight': 'bold'}),
+        html.Div(f"Total de Mujeres con Doctorado: {total_mujeres_doctorado}", style={'fontWeight': 'bold'}),
+        html.Div(f"Total de Hombres con Doctorado: {total_hombres_doctorado}", style={'fontWeight': 'bold'}),
     ]
+
 
 # Ejecutar la app
 if __name__ == "__main__":
