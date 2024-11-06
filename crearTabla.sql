@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS dashboard;
+
 USE dashboard;
 
 CREATE TABLE datos (
