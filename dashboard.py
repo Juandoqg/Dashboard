@@ -86,7 +86,7 @@ app.layout = html.Div([
 )
 def actualizar_graficos_fijos(n1, n2, n3):
     # Consulta 1: Total de Docentes Femeninos con Doctorado en 2014, 2015 y 2016
-    anios = [2014, 2015, 2016]
+    anios = [2021, 2022, 2023]
     cantidad_femeninos_doctorado = []
 
     for anio in anios:
