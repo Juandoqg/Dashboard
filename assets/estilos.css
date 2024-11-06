@@ -1,26 +1,44 @@
+/* Estilos generales */
 body {
-    background-color: #f8f9fa; /* Color de fondo claro */
+    font-family: Arial, sans-serif;
 }
 
-.dash-graph {
-    border: 2px solid #007bff; /* Borde azul para los gráficos */
-    border-radius: 10px; /* Bordes redondeados */
+/* Sección de consultas fijas */
+.card-header {
+    font-weight: bold;
 }
 
+/* Botón personalizado */
 .btn-custom {
-    background-color: #28a745; /* Botón verde */
-    color: white; /* Texto blanco */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .btn-custom:hover {
-    background-color: #218838; /* Color al pasar el mouse */
+    background-color: #0056b3;
 }
 
-h1, h3 {
-    color: #343a40; /* Títulos oscuros */
+/* Márgenes generales */
+html.Div {
+    margin-top: 20px;
 }
 
-.card {
-    background-color: #ffffff; /* Fondo blanco para las tarjetas */
-    border: 1px solid #dee2e6; /* Borde gris claro */
+/* Sección de consultas variables */
+h3 {
+    font-weight: bold;
+}
+
+/* Slider y Dropdown */
+.dcc-Slider, .dcc-Dropdown {
+    margin-top: 10px;
+}
+
+/* Cifras relevantes */
+#cifras-relevantes div {
+    font-weight: bold;
+    margin-top: 10px;
 }

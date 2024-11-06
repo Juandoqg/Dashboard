@@ -28,12 +28,11 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 
 # Layout del Dashboard
 app.layout = html.Div([
-    html.H1("Dashboard de Docentes", style={'textAlign': 'center', 'color': '#007bff'}),
 
     # Sección de Consultas Fijas con diseño de cuadrícula
     dbc.Row([
         dbc.Col(dbc.Card([
-            dbc.CardHeader("Consulta 1: Docentes Femeninos con Doctorado (2014-2016)", style={'fontWeight': 'bold'}),
+            dbc.CardHeader("Consulta 1: Docentes Femeninos con Doctorado (2014-2016)"),
             dbc.CardBody([
                 dcc.Graph(id="grafico-consulta-fija-1"),
                 html.Button("Ejecutar Consulta 1", id="btn-consulta-1", className="btn btn-custom"),
@@ -41,7 +40,7 @@ app.layout = html.Div([
         ]), width=4),
         
         dbc.Col(dbc.Card([
-            dbc.CardHeader("Consulta 2: Mujeres por Nivel de Formación", style={'fontWeight': 'bold'}),
+            dbc.CardHeader("Consulta 2: Mujeres por Nivel de Formación"),
             dbc.CardBody([
                 dcc.Graph(id="grafico-consulta-fija-2"),
                 html.Button("Ejecutar Consulta 2", id="btn-consulta-2", className="btn btn-custom"),
@@ -49,13 +48,13 @@ app.layout = html.Div([
         ]), width=4),
         
         dbc.Col(dbc.Card([
-            dbc.CardHeader("Consulta 3: Total de Docentes por Género", style={'fontWeight': 'bold'}),
+            dbc.CardHeader("Consulta 3: Total de Docentes por Género"),
             dbc.CardBody([
                 dcc.Graph(id="grafico-consulta-fija-3"),
                 html.Button("Ejecutar Consulta 3", id="btn-consulta-3", className="btn btn-custom"),
             ])
         ]), width=4),
-    ], style={'margin': '20px'}),
+    ]),
 
     # Sección de Consultas Variables con Dropdown, Slider y Checkboxes
     html.Div([
@@ -70,7 +69,6 @@ app.layout = html.Div([
                         {"label": "Total de Docentes por Municipio", "value": "total_por_municipio"},
                     ],
                     placeholder="Selecciona una consulta",
-                    style={'color': '#495057'}
                 ),
             ], width=6),
             dbc.Col([
@@ -93,13 +91,12 @@ app.layout = html.Div([
             value=df['año'].min()
         ),
         dcc.Graph(id="grafico-consulta-variable"),
-    ], style={'margin-top': '20px'}),
+    ]),
 
     # Cifras Relevantes
     html.Div(id="cifras-relevantes"),
 ])
 
-# Callback para las consultas fijas
 @app.callback(
     Output("grafico-consulta-fija-1", "figure"),
     Output("grafico-consulta-fija-2", "figure"),
