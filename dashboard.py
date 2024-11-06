@@ -30,65 +30,70 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 app.layout = html.Div([
 
     # Sección de Consultas Fijas con diseño de cuadrícula
-    dbc.Row([
-        dbc.Col(dbc.Card([
-            dbc.CardHeader("Consulta 1: Docentes Femeninos con Doctorado (2021-2023)"),
-            dbc.CardBody([
+    dbc.Row([ 
+        dbc.Col(dbc.Card([ 
+            dbc.CardHeader("Consulta 1: Docentes Femeninos con Doctorado (2021-2023)"), 
+            dbc.CardBody([ 
                 dcc.Graph(id="grafico-consulta-fija-1"),
                 html.Button("Ejecutar Consulta 1", id="btn-consulta-1", className="btn btn-custom"),
-            ])
+            ]) 
         ]), width=4),
         
-        dbc.Col(dbc.Card([
-            dbc.CardHeader("Consulta 2: Mujeres por Nivel de Formación"),
-            dbc.CardBody([
-                dcc.Graph(id="grafico-consulta-fija-2"),
+        dbc.Col(dbc.Card([ 
+            dbc.CardHeader("Consulta 2: Mujeres por Nivel de Formación"), 
+            dbc.CardBody([ 
+                dcc.Graph(id="grafico-consulta-fija-2"), 
                 html.Button("Ejecutar Consulta 2", id="btn-consulta-2", className="btn btn-custom"),
-            ])
+            ]) 
         ]), width=4),
         
-        dbc.Col(dbc.Card([
-            dbc.CardHeader("Consulta 3: Total de Docentes por Género"),
-            dbc.CardBody([
-                dcc.Graph(id="grafico-consulta-fija-3"),
+        dbc.Col(dbc.Card([ 
+            dbc.CardHeader("Consulta 3: Total de Docentes por Género"), 
+            dbc.CardBody([ 
+                dcc.Graph(id="grafico-consulta-fija-3"), 
                 html.Button("Ejecutar Consulta 3", id="btn-consulta-3", className="btn btn-custom"),
-            ])
+            ]) 
         ]), width=4),
     ]),
 
-    # Sección de Consultas Variables con Dropdown, Slider y Checkboxes
-    html.Div([
-        html.H3("Consultas Variables"),
-        dbc.Row([
-            dbc.Col([
-                dcc.Dropdown(
-                    id="filtro-consulta-variable",
-                    options=[
+    # Sección de Consultas Variables con Dropdown y Checkboxes
+    html.Div([ 
+        html.H3("Consultas Variables"), 
+        dbc.Row([ 
+            dbc.Col([ 
+                dcc.Dropdown( 
+                    id="filtro-consulta-variable", 
+                    options=[ 
                         {"label": "Distribución de Docentes por Género y Nivel", "value": "distribucion_genero_nivel"},
                         {"label": "Total de Docentes por Tipo de Contrato", "value": "total_por_tipo_contrato"},
                         {"label": "Total de Docentes por Municipio", "value": "total_por_municipio"},
-                    ],
-                    placeholder="Selecciona una consulta",
-                ),
-            ], width=6),
-            dbc.Col([
-                dcc.Checklist(
-                    id="checklist-genero",
-                    options=[
-                        {'label': 'Masculino', 'value': 'MASCULINO'},
+                    ], 
+                    placeholder="Selecciona una consulta", 
+                ), 
+            ], width=6), 
+            dbc.Col([ 
+                dcc.Checklist( 
+                    id="checklist-genero", 
+                    options=[ 
+                        {'label': 'Masculino', 'value': 'MASCULINO'}, 
                         {'label': 'Femenino', 'value': 'FEMENINO'},
-                    ],
-                    value=['MASCULINO', 'FEMENINO'],
+                    ], 
+                    value=['MASCULINO', 'FEMENINO'], 
                     labelStyle={'display': 'inline-block'}
-                ),
+                ), 
             ], width=6),
-        ]),
-        dcc.Slider(
-            id="slider-anio",
-            min=df['año'].min(),
-            max=df['año'].max(),
-            marks={str(year): str(year) for year in df['año'].unique()},
-            value=df['año'].min()
+        ]), 
+
+        # Checklist de Años
+        dcc.Checklist(
+            id="checklist-anios",
+            options=[
+                {"label": "2021", "value": 2021},
+                {"label": "2022", "value": 2022},
+                {"label": "2023", "value": 2023},
+            ],
+            value=[2021, 2022, 2023],
+            labelStyle={'display': 'inline-block'}
         ),
         dcc.Graph(id="grafico-consulta-variable"),
     ]),
@@ -106,8 +111,8 @@ app.layout = html.Div([
      Input("btn-consulta-3", "n_clicks")]
 )
 def actualizar_graficos_fijos(n1, n2, n3):
-    # Consulta 1: Total de Docentes Femeninos con Doctorado en 2014, 2015 y 2016
-    anios = [2021,2022,2023]
+    # Consulta 1: Total de Docentes Femeninos con Doctorado en 2021, 2022, 2023
+    anios = [2021, 2022, 2023]
     cantidad_femeninos_doctorado = []
 
     for anio in anios:
@@ -118,7 +123,7 @@ def actualizar_graficos_fijos(n1, n2, n3):
         cantidad_femeninos_doctorado.append(cantidad)
 
     fig1 = px.bar(x=anios, y=cantidad_femeninos_doctorado,
-                  title="Docentes Femeninos con Doctorado (2014-2016)",
+                  title="Docentes Femeninos con Doctorado (2021-2023)",
                   labels={'x': 'Año', 'y': 'Cantidad'},
                   text=cantidad_femeninos_doctorado)
     fig1.update_traces(texttemplate='%{text}', textposition='outside')
@@ -129,8 +134,12 @@ def actualizar_graficos_fijos(n1, n2, n3):
                   title="Total de Mujeres por Nivel de Formación")
 
     # Consulta 3: Total de Docentes por Género
-    fig3 = px.histogram(df, x="genero_docente", y="numero_docentes", 
+    fig3 = px.histogram(df, x="genero_docente", y="numero_docentes",
                         title="Total de Docentes por Género", barmode="group")
+    fig3.update_layout(
+        xaxis_title="Género",
+        yaxis_title="Cantidad"
+    )
 
     return fig1, fig2, fig3
 
@@ -138,26 +147,37 @@ def actualizar_graficos_fijos(n1, n2, n3):
 @app.callback(
     Output("grafico-consulta-variable", "figure"),
     [Input("filtro-consulta-variable", "value"),
-     Input("slider-anio", "value"),
+     Input("checklist-anios", "value"),
      Input("checklist-genero", "value")]
 )
-def actualizar_grafico_variable(seleccion, anio, genero_seleccionado):
-    datos_filtrados = df[(df['año'] == anio) & (df['genero_docente'].isin(genero_seleccionado))]
-
+def actualizar_grafico_variable(seleccion, anios_seleccionados, genero_seleccionado):
+    # Filtrar los datos según los años seleccionados y el género seleccionado
+    datos_filtrados = df[(df['año'].isin(anios_seleccionados)) & (df['genero_docente'].isin(genero_seleccionado))]
+    
     if seleccion == "distribucion_genero_nivel":
+        # Distribución de Docentes por Género y Nivel
         fig = px.histogram(datos_filtrados, x="genero_docente", color="maximo_nivel_formacion_docente", 
-                           title="Distribución por Género y Nivel")
+                           title="Distribución de Docentes por Género y Nivel de Formación",
+                           labels={'genero_docente': 'Género', 'maximo_nivel_formacion_docente': 'Nivel de Formación'})
+    
     elif seleccion == "total_por_tipo_contrato":
+        # Total de Docentes por Tipo de Contrato
         fig = px.bar(datos_filtrados, x="tipo_contrato_docente", y="numero_docentes", 
-                     title="Docentes por Tipo de Contrato")
+                     title="Docentes por Tipo de Contrato",
+                     labels={'tipo_contrato_docente': 'Tipo de Contrato', 'numero_docentes': 'Cantidad de Docentes'})
+
     elif seleccion == "total_por_municipio":
+        # Total de Docentes por Municipio
         fig = px.bar(datos_filtrados, x="municipio_domicilio_ies", y="numero_docentes", 
-                     title="Docentes por Municipio")
+                     title="Docentes por Municipio",
+                     labels={'municipio_domicilio_ies': 'Municipio', 'numero_docentes': 'Cantidad de Docentes'})
+    
     else:
-        fig = {}
+        fig = {}  # Si no se selecciona ninguna consulta, no mostrar gráfico
     
     return fig
 
+# Callback para cifras relevantes
 # Callback para cifras relevantes
 @app.callback(
     Output("cifras-relevantes", "children"),
@@ -186,7 +206,5 @@ def mostrar_cifras_relevantes(n1, n2, n3):
         html.Div(f"Total de Hombres con Doctorado: {total_hombres_doctorado}", style={'fontWeight': 'bold'}),
     ]
 
-
-# Ejecutar la app
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run_server(debug=True)
