@@ -27,6 +27,7 @@ df = cargar_datos()
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 
 # Layout del Dashboard
+# Layout del Dashboard
 app.layout = html.Div([
     dbc.Container([
         # Sección de Consultas Fijas con diseño de cuadrícula
@@ -54,6 +55,15 @@ app.layout = html.Div([
                     html.Button("Ejecutar Consulta 3", id="btn-consulta-3", className="btn btn-custom"),
                 ]) 
             ]), xs=12, sm=12, md=6, lg=4),
+            
+            # Nueva columna para la Consulta 4
+            dbc.Col(dbc.Card([ 
+                dbc.CardHeader("Consulta 4: Distribución de Docentes por Tipo de Contrato"), 
+                dbc.CardBody([ 
+                    dcc.Graph(id="grafico-consulta-fija-4"),  # Nuevo gráfico
+                    html.Button("Ejecutar Consulta 4", id="btn-consulta-4", className="btn btn-custom"),  # Nuevo botón
+                ]) 
+            ]), xs=12, sm=12, md=6, lg=4),  # Ajuste para mostrarlo en el grid
         ], className="g-3"),
 
         # Sección de Consultas Variables con Dropdown y Checkboxes
@@ -100,25 +110,28 @@ app.layout = html.Div([
 
         # Cifras Relevantes
         html.Div(id="cifras-relevantes", className="my-4"),
-    ], className="mt-3 mb-3",fluid=True)
+    ], className="mt-3 mb-3", fluid=True)
 ])
+
 
 @app.callback(
     Output("grafico-consulta-fija-1", "figure"),
     Output("grafico-consulta-fija-2", "figure"),
     Output("grafico-consulta-fija-3", "figure"),
+    Output("grafico-consulta-fija-4", "figure"),
     [Input("btn-consulta-1", "n_clicks"),
      Input("btn-consulta-2", "n_clicks"),
-     Input("btn-consulta-3", "n_clicks")]
+     Input("btn-consulta-3", "n_clicks"),
+     Input("btn-consulta-4", "n_clicks")]
 )
-def actualizar_graficos_fijos(n1, n2, n3):
+def actualizar_graficos_fijos(n1, n2, n3, n4):
     # Consulta 1: Total de Docentes Femeninos con Doctorado en 2021, 2022, 2023
     anios = [2021, 2022, 2023]
     cantidad_femeninos_doctorado = []
 
     for anio in anios:
-        total_femeninos_doctorado = df[(df['genero_docente'] == 'FEMENINO') &
-                                        (df['maximo_nivel_formacion_docente'] == 'DOCTORADO') &
+        total_femeninos_doctorado = df[(df['genero_docente'] == 'FEMENINO') & 
+                                        (df['maximo_nivel_formacion_docente'] == 'DOCTORADO') & 
                                         (df['año'] == anio)]
         cantidad = total_femeninos_doctorado['numero_docentes'].sum()
         cantidad_femeninos_doctorado.append(cantidad)
@@ -142,7 +155,17 @@ def actualizar_graficos_fijos(n1, n2, n3):
         yaxis_title="Cantidad"
     )
 
-    return fig1, fig2, fig3
+    # Consulta 4: Distribución de Docentes por Tipo de Contrato (Gráfico de torta)
+    if 'tipo_contrato_docente' in df.columns:
+        distribucion_tipo_contrato = df.groupby('tipo_contrato_docente')['numero_docentes'].sum().reset_index()
+        print(distribucion_tipo_contrato)  # Imprime los datos agrupados
+        fig4 = px.pie(distribucion_tipo_contrato, values="numero_docentes", names="tipo_contrato_docente",
+                      title="Docentes por Tipo de Contrato")
+    else:
+        fig4 = px.pie(pd.DataFrame(), title="Distribución de Docentes por Tipo de Contrato")
+
+    return fig1, fig2, fig3, fig4
+
 
 # Callback para las consultas variables
 @app.callback(
