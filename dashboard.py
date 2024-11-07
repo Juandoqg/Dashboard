@@ -77,6 +77,8 @@ app.layout = html.Div([
                     {"label": "Distribución de Docentes por Género y Nivel", "value": "distribucion_genero_nivel"},
                     {"label": "Total de Docentes por Tipo de Contrato", "value": "total_por_tipo_contrato"},
                     {"label": "Total de Docentes por Municipio", "value": "total_por_municipio"},
+                    {"label": "Total de Docentes por Año y Tipo de Dedicación", "value": "total_por_anio_tipo_dedicacion"},
+                    {"label": "Distribución de Docentes por Departamento", "value": "distribucion_por_departamento"},
                 ], 
                 placeholder="Selecciona una consulta", 
             ), 
@@ -182,31 +184,38 @@ def actualizar_graficos_fijos(n1, n2, n3, n4):
      Input("checklist-genero", "value")]
 )
 def actualizar_grafico_variable(seleccion, anios_seleccionados, genero_seleccionado):
-    # Filtrar los datos según los años y el género seleccionados
     datos_filtrados = df[(df['año'].isin(anios_seleccionados)) & (df['genero_docente'].isin(genero_seleccionado))]
 
-    # Crear la gráfica adecuada según la selección del usuario
     if seleccion == "distribucion_genero_nivel":
-        # Agrupar por género y nivel de formación y sumar la cantidad de docentes
         datos_agrupados = datos_filtrados.groupby(['genero_docente', 'maximo_nivel_formacion_docente'])['numero_docentes'].sum().reset_index()
-        fig = px.histogram(datos_agrupados, x="genero_docente", y="numero_docentes", color="maximo_nivel_formacion_docente", 
+        fig = px.histogram(datos_agrupados, x="genero_docente", y="numero_docentes", color="maximo_nivel_formacion_docente",
                            title="Distribución de Docentes por Género y Nivel de Formación",
                            labels={'genero_docente': 'Género', 'maximo_nivel_formacion_docente': 'Nivel de Formación'})
         fig.update_layout(yaxis_title="Cantidad")
 
     elif seleccion == "total_por_tipo_contrato":
-        # Agrupar por tipo de contrato y sumar la cantidad de docentes
         datos_agrupados = datos_filtrados.groupby('tipo_contrato_docente')['numero_docentes'].sum().reset_index()
-        fig = px.bar(datos_agrupados, x="tipo_contrato_docente", y="numero_docentes", 
+        fig = px.bar(datos_agrupados, x="tipo_contrato_docente", y="numero_docentes",
                      title="Docentes por Tipo de Contrato",
                      labels={'tipo_contrato_docente': 'Tipo de Contrato', 'numero_docentes': 'Cantidad de Docentes'})
 
     elif seleccion == "total_por_municipio":
-        # Agrupar por municipio y sumar la cantidad de docentes
         datos_agrupados = datos_filtrados.groupby('municipio_domicilio_ies')['numero_docentes'].sum().reset_index()
-        fig = px.bar(datos_agrupados, x="municipio_domicilio_ies", y="numero_docentes", 
+        fig = px.bar(datos_agrupados, x="municipio_domicilio_ies", y="numero_docentes",
                      title="Docentes por Municipio",
                      labels={'municipio_domicilio_ies': 'Municipio', 'numero_docentes': 'Cantidad de Docentes'})
+
+    elif seleccion == "total_por_anio_tipo_dedicacion":
+        datos_agrupados = datos_filtrados.groupby(['año', 'tiempo_dedicacion_docente'])['numero_docentes'].sum().reset_index()
+        fig = px.bar(datos_agrupados, x="año", y="numero_docentes", color="tiempo_dedicacion_docente",
+                      title="Total de Docentes por Año y Tipo de Dedicación",
+                      labels={'año': 'Año', 'tiempo_dedicacion_docente': 'Tipo de Dedicación', 'numero_docentes': 'Cantidad de Docentes'})
+
+    elif seleccion == "distribucion_por_departamento":
+        datos_agrupados = datos_filtrados.groupby('departamento_domicilio_ies')['numero_docentes'].sum().reset_index()
+        fig = px.bar(datos_agrupados, x="departamento_domicilio_ies", y="numero_docentes",
+                     title="Distribución de Docentes por Departamento",
+                     labels={'departamento_domicilio_ies': 'Departamento', 'numero_docentes': 'Cantidad de Docentes'})
 
     else:
         fig = {}  # Gráfica vacía en caso de que no haya coincidencias con la selección
