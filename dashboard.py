@@ -142,11 +142,12 @@ def actualizar_graficos_fijos(n1, n2, n3, n4):
         cantidad = total_femeninos_doctorado['numero_docentes'].sum()
         cantidad_femeninos_doctorado.append(cantidad)
 
-    fig1 = px.bar(x=anios, y=cantidad_femeninos_doctorado,
-                  title="Docentes Femeninos con Doctorado (2021-2023)",
-                  labels={'x': 'Año', 'y': 'Cantidad'},
-                  text=cantidad_femeninos_doctorado)
-    fig1.update_traces(texttemplate='%{text}', textposition='outside')
+    fig1 = px.line(x=anios, y=cantidad_femeninos_doctorado,
+               title="Docentes Femeninos con Doctorado (2021-2023)",
+               labels={'x': 'Año', 'y': 'Cantidad'},
+               text=cantidad_femeninos_doctorado)
+    fig1.update_traces(texttemplate='%{text}', textposition='top center')
+
 
     # Consulta 2: Total de Mujeres por Máximo Nivel de Formación (Gráfico de torta)
     mujeres_formacion = df[df['genero_docente'] == 'FEMENINO'].groupby('maximo_nivel_formacion_docente').sum().reset_index()
