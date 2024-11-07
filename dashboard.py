@@ -68,33 +68,33 @@ app.layout = html.Div([
 
         # Sección de Consultas Variables con Dropdown y Checkboxes
         html.Div([ 
-            html.H3("Consultas Variables"), 
-            dbc.Row([ 
-                dbc.Col([ 
-                    dcc.Dropdown( 
-                        id="filtro-consulta-variable", 
-                        options=[ 
-                            {"label": "Distribución de Docentes por Género y Nivel", "value": "distribucion_genero_nivel"},
-                            {"label": "Total de Docentes por Tipo de Contrato", "value": "total_por_tipo_contrato"},
-                            {"label": "Total de Docentes por Municipio", "value": "total_por_municipio"},
-                        ], 
-                        placeholder="Selecciona una consulta", 
-                    ), 
-                ], xs=12, sm=12, md=6), 
-                dbc.Col([ 
-                    dcc.Checklist( 
-                        id="checklist-genero", 
-                        options=[ 
-                            {'label': 'Masculino', 'value': 'MASCULINO'}, 
-                            {'label': 'Femenino', 'value': 'FEMENINO'},
-                        ], 
-                        value=['MASCULINO', 'FEMENINO'], 
-                        labelStyle={'display': 'inline-block'}
-                    ), 
-                ], xs=12, sm=12, md=6),
-            ]), 
-
-            # Checklist de Años
+    html.H3("Consultas Variables"), 
+    dbc.Row([ 
+        dbc.Col([ 
+            dcc.Dropdown( 
+                id="filtro-consulta-variable", 
+                options=[ 
+                    {"label": "Distribución de Docentes por Género y Nivel", "value": "distribucion_genero_nivel"},
+                    {"label": "Total de Docentes por Tipo de Contrato", "value": "total_por_tipo_contrato"},
+                    {"label": "Total de Docentes por Municipio", "value": "total_por_municipio"},
+                ], 
+                placeholder="Selecciona una consulta", 
+            ), 
+        ], xs=12, sm=12, md=6), 
+        dbc.Col([ 
+            dcc.Checklist( 
+                id="checklist-genero", 
+                options=[ 
+                    {'label': 'Masculino', 'value': 'MASCULINO'}, 
+                    {'label': 'Femenino', 'value': 'FEMENINO'},
+                ], 
+                value=['MASCULINO', 'FEMENINO'], 
+                labelStyle={'display': 'inline-block'}
+            ), 
+        ], xs=12, sm=12, md=3),
+        
+        # Checklist de Años en la misma fila
+        dbc.Col([
             dcc.Checklist(
                 id="checklist-anios",
                 options=[
@@ -104,12 +104,14 @@ app.layout = html.Div([
                 ],
                 value=[2021, 2022, 2023],
                 labelStyle={'display': 'inline-block'}
-            ),
-            dcc.Graph(id="grafico-consulta-variable"),
-        ], className="my-4"),
+            )
+        ], xs=12, sm=12, md=3),
+    ]), 
 
-        # Cifras Relevantes
-        html.Div(id="cifras-relevantes", className="my-4"),
+    # Gráfico y cifras relevantes
+            dcc.Graph(id="grafico-consulta-variable"),
+               ], className="my-4"),
+            html.Div(id="cifras-relevantes", className="my-4"),
     ], className="mt-3 mb-3", fluid=True)
 ])
 
