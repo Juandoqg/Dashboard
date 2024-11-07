@@ -11,9 +11,9 @@ import plotly.express as px
 def cargar_datos():
     conexion = mysql.connector.connect(
         host="localhost",
-        user="root",  # Cambia esto por tu usuario de MySQL
-        password="",  # Cambia esto por tu contraseña de MySQL
-        database="dashboard"  # Cambia esto por tu nombre de base de datos
+        user="root", 
+        password="",  
+        database="dashboard"  
     )
     query = "SELECT * FROM datos"
     df = pd.read_sql(query, conexion)
@@ -27,99 +27,98 @@ df = cargar_datos()
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 
 # Layout del Dashboard
-# Layout del Dashboard
 app.layout = html.Div([
     dbc.Container([
         # Sección de Consultas Fijas con diseño de cuadrícula
-        dbc.Row([ 
-            dbc.Col(dbc.Card([ 
-                dbc.CardHeader("Consulta 1: Docentes Femeninos con Doctorado (2021-2023)"), 
-                dbc.CardBody([ 
+        dbc.Row([
+            dbc.Col(dbc.Card([
+                dbc.CardHeader("Consulta 1: Docentes Femeninos con Doctorado (2021-2023)"),
+                dbc.CardBody([
                     dcc.Graph(id="grafico-consulta-fija-1"),
                     html.Button("Ejecutar Consulta 1", id="btn-consulta-1", className="btn btn-custom"),
-                ]) 
+                ])
             ]), xs=12, sm=12, md=6, lg=4),
             
-            dbc.Col(dbc.Card([ 
-                dbc.CardHeader("Consulta 2: Mujeres por Nivel de Formación"), 
-                dbc.CardBody([ 
-                    dcc.Graph(id="grafico-consulta-fija-2"), 
+            dbc.Col(dbc.Card([
+                dbc.CardHeader("Consulta 2: Mujeres por Nivel de Formación"),
+                dbc.CardBody([
+                    dcc.Graph(id="grafico-consulta-fija-2"),
                     html.Button("Ejecutar Consulta 2", id="btn-consulta-2", className="btn btn-custom"),
-                ]) 
+                ])
             ]), xs=12, sm=12, md=6, lg=4),
-            dbc.Col(dbc.Card([ 
-                dbc.CardHeader("Consulta 3: Total de Docentes por Género"), 
-                dbc.CardBody([ 
-                    dcc.Graph(id="grafico-consulta-fija-3"), 
+            
+            dbc.Col(dbc.Card([
+                dbc.CardHeader("Consulta 3: Total de Docentes por Género"),
+                dbc.CardBody([
+                    dcc.Graph(id="grafico-consulta-fija-3"),
                     html.Button("Ejecutar Consulta 3", id="btn-consulta-3", className="btn btn-custom"),
-                ]) 
+                ])
             ]), xs=12, sm=12, md=6, lg=4),
             
         ], className="g-3"),
-         dbc.Row([ 
-    dbc.Col(dbc.Card([ 
-        dbc.CardHeader("Consulta 4: Distribución de Docentes por Tipo de Contrato"), 
-        dbc.CardBody([ 
-            dcc.Graph(id="grafico-consulta-fija-4"),  # Nuevo gráfico
-            html.Button("Ejecutar Consulta 4", id="btn-consulta-4", className="btn btn-custom"),  # Nuevo botón
-        ]) 
-    ]), xs=12, sm=12, md=6, lg=4), 
-    
-    # Meter el div de Consultas Variables aquí
-    dbc.Col([
-        html.Div([ 
-    html.H3("Consultas Variables"), 
-    dbc.Row([ 
-        dbc.Col([ 
-            dcc.Dropdown( 
-                id="filtro-consulta-variable", 
-                options=[ 
-                    {"label": "Distribución de Docentes por Género y Nivel", "value": "distribucion_genero_nivel"},
-                    {"label": "Total de Docentes por Tipo de Contrato", "value": "total_por_tipo_contrato"},
-                    {"label": "Total de Docentes por Municipio", "value": "total_por_municipio"},
-                    {"label": "Total de Docentes por Año y Tipo de Dedicación", "value": "total_por_anio_tipo_dedicacion"},
-                    {"label": "Distribución de Docentes por Departamento", "value": "distribucion_por_departamento"},
-                ], 
-                placeholder="Selecciona una consulta", 
-            ), 
-        ], xs=12, sm=12, md=5), 
-        dbc.Col([ 
-            dcc.Checklist( 
-                id="checklist-genero", 
-                options=[ 
-                    {'label': 'Masculino', 'value': 'MASCULINO'}, 
-                    {'label': 'Femenino', 'value': 'FEMENINO'},
-                ], 
-                value=['MASCULINO', 'FEMENINO'], 
-                labelStyle={'display': 'inline-block'}
-            ), 
-        ], xs=12, sm=12, md=3),
         
-        # Checklist de Años en la misma fila
-        dbc.Col([
-            dcc.Checklist(
-                id="checklist-anios",
-                options=[
-                    {"label": "2021", "value": 2021},
-                    {"label": "2022", "value": 2022},
-                    {"label": "2023", "value": 2023},
-                ],
-                value=[2021, 2022, 2023],
-                labelStyle={'display': 'inline-block'}
-            )
-        ], xs=12, sm=12, md=4),
-    ]), 
-     
+        # Nueva fila para consultas variables con estilo similar a los gráficos fijos
+        dbc.Row([
+            dbc.Col(dbc.Card([
+                dbc.CardHeader("Consulta 4: Distribución de Docentes por Tipo de Contrato"),
+                dbc.CardBody([
+                    dcc.Graph(id="grafico-consulta-fija-4"),
+                    html.Button("Ejecutar Consulta 4", id="btn-consulta-4", className="btn btn-custom"),
+                ])
+            ]), xs=12, sm=12, md=6, lg=4),
 
-    # Gráfico y cifras relevantes
-            dcc.Graph(id="grafico-consulta-variable"),
-               ], className="my-4"),
-    ], xs=12, sm=12, md=6, lg=8),  # Ajusta el tamaño según tus necesidades
-], className="g-3"),
+            # Consultas Variables con el mismo estilo
+            dbc.Col(dbc.Card([
+                dbc.CardHeader("Consultas Variables"),
+                dbc.CardBody([
+                    dbc.Row([
+                        dbc.Col([
+                            dcc.Dropdown(
+                                id="filtro-consulta-variable",
+                                options=[
+                                    {"label": "Distribución de Docentes por Género y Nivel", "value": "distribucion_genero_nivel"},
+                                    {"label": "Total de Docentes por Tipo de Contrato", "value": "total_por_tipo_contrato"},
+                                    {"label": "Total de Docentes por Municipio", "value": "total_por_municipio"},
+                                    {"label": "Total de Docentes por Año y Tipo de Dedicación", "value": "total_por_anio_tipo_dedicacion"},
+                                    {"label": "Distribución de Docentes por Departamento", "value": "distribucion_por_departamento"},
+                                ],
+                                placeholder="Selecciona una consulta",
+                            ),
+                        ], xs=12, sm=12, md=5),
+                        dbc.Col([
+                            dcc.Checklist(
+                                id="checklist-genero",
+                                options=[
+                                    {'label': 'Masculino', 'value': 'MASCULINO'},
+                                    {'label': 'Femenino', 'value': 'FEMENINO'},
+                                ],
+                                value=['MASCULINO', 'FEMENINO'],
+                                labelStyle={'display': 'inline-block'}
+                            ),
+                        ], xs=12, sm=12, md=3),
+                        dbc.Col([
+                            dcc.Checklist(
+                                id="checklist-anios",
+                                options=[
+                                    {"label": "2021", "value": 2021},
+                                    {"label": "2022", "value": 2022},
+                                    {"label": "2023", "value": 2023},
+                                ],
+                                value=[2021, 2022, 2023],
+                                labelStyle={'display': 'inline-block'}
+                            )
+                        ], xs=12, sm=12, md=4),
+                    ]),
+                    # Gráfico y cifras relevantes
+                    dcc.Graph(id="grafico-consulta-variable"),
+                ])
+            ]), xs=12, sm=12, md=6, lg=8),
+        ], className="g-3"),
 
-            html.Div(id="cifras-relevantes", className="my-4"),
+        html.Div(id="cifras-relevantes", className="my-4"),
     ], className="mt-3 mb-3", fluid=True)
 ])
+
 
 
 @app.callback(
@@ -292,7 +291,6 @@ def mostrar_cifras_relevantes(n1, n2, n3):
         ], color="dark", inverse=True, className="m-3"),
     ]
 
-    # Agrupar tarjetas en una fila con diseño de cuadrícula, asegurando que haya 3 tarjetas por fila en pantallas grandes y se ajusten en pantallas más pequeñas
     return dbc.Row([dbc.Col(card, xl=4, lg=4, md=6, sm=12, xs=12) for card in tarjetas], className="g-3 justify-content-start")
 
 

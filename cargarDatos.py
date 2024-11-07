@@ -24,7 +24,7 @@ INSERT INTO datos (
 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 """
 
-# Cargar cada archivo en la tabla de MySQL
+
 for archivo in archivos:
     # Leer el archivo Excel
     df = pd.read_excel(archivo)
@@ -32,8 +32,6 @@ for archivo in archivos:
     # Convertir cada fila en una tupla y ejecutarla en el query de inserción
     for _, fila in df.iterrows():
         cursor.execute(insert_query, tuple(fila))
-    
-    # Confirmar los cambios para el archivo actual
     conexion.commit()
     print(f"Carga de {archivo} completada.")
 
