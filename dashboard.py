@@ -47,7 +47,6 @@ app.layout = html.Div([
                     html.Button("Ejecutar Consulta 2", id="btn-consulta-2", className="btn btn-custom"),
                 ]) 
             ]), xs=12, sm=12, md=6, lg=4),
-            
             dbc.Col(dbc.Card([ 
                 dbc.CardHeader("Consulta 3: Total de Docentes por Género"), 
                 dbc.CardBody([ 
@@ -56,17 +55,18 @@ app.layout = html.Div([
                 ]) 
             ]), xs=12, sm=12, md=6, lg=4),
             
-            # Nueva columna para la Consulta 4
-            dbc.Col(dbc.Card([ 
-                dbc.CardHeader("Consulta 4: Distribución de Docentes por Tipo de Contrato"), 
-                dbc.CardBody([ 
-                    dcc.Graph(id="grafico-consulta-fija-4"),  # Nuevo gráfico
-                    html.Button("Ejecutar Consulta 4", id="btn-consulta-4", className="btn btn-custom"),  # Nuevo botón
-                ]) 
-            ]), xs=12, sm=12, md=6, lg=4),  # Ajuste para mostrarlo en el grid
         ], className="g-3"),
-
-        # Sección de Consultas Variables con Dropdown y Checkboxes
+         dbc.Row([ 
+    dbc.Col(dbc.Card([ 
+        dbc.CardHeader("Consulta 4: Distribución de Docentes por Tipo de Contrato"), 
+        dbc.CardBody([ 
+            dcc.Graph(id="grafico-consulta-fija-4"),  # Nuevo gráfico
+            html.Button("Ejecutar Consulta 4", id="btn-consulta-4", className="btn btn-custom"),  # Nuevo botón
+        ]) 
+    ]), xs=12, sm=12, md=6, lg=4), 
+    
+    # Meter el div de Consultas Variables aquí
+    dbc.Col([
         html.Div([ 
     html.H3("Consultas Variables"), 
     dbc.Row([ 
@@ -80,7 +80,7 @@ app.layout = html.Div([
                 ], 
                 placeholder="Selecciona una consulta", 
             ), 
-        ], xs=12, sm=12, md=6), 
+        ], xs=12, sm=12, md=5), 
         dbc.Col([ 
             dcc.Checklist( 
                 id="checklist-genero", 
@@ -105,12 +105,16 @@ app.layout = html.Div([
                 value=[2021, 2022, 2023],
                 labelStyle={'display': 'inline-block'}
             )
-        ], xs=12, sm=12, md=3),
+        ], xs=12, sm=12, md=4),
     ]), 
+     
 
     # Gráfico y cifras relevantes
             dcc.Graph(id="grafico-consulta-variable"),
                ], className="my-4"),
+    ], xs=12, sm=12, md=6, lg=8),  # Ajusta el tamaño según tus necesidades
+], className="g-3"),
+
             html.Div(id="cifras-relevantes", className="my-4"),
     ], className="mt-3 mb-3", fluid=True)
 ])
