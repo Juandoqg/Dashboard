@@ -100,7 +100,7 @@ app.layout = html.Div([
 
         # Cifras Relevantes
         html.Div(id="cifras-relevantes", className="my-4"),
-    ], fluid=True)
+    ], className="mt-3 mb-3",fluid=True)
 ])
 
 @app.callback(
@@ -181,6 +181,7 @@ def actualizar_grafico_variable(seleccion, anios_seleccionados, genero_seleccion
      Input("btn-consulta-2", "n_clicks"),
      Input("btn-consulta-3", "n_clicks")]
 )
+
 def mostrar_cifras_relevantes(n1, n2, n3):
     total_docentes = df['numero_docentes'].sum()
     total_hombres = df[df['genero_docente'] == 'MASCULINO']['numero_docentes'].sum()
@@ -198,53 +199,56 @@ def mostrar_cifras_relevantes(n1, n2, n3):
                 html.H5("Total de Docentes", className="card-title"),
                 html.P(f"{total_docentes}", className="card-text")
             ])
-        ], color="primary", inverse=True),
+        ], color="primary", inverse=True, className="m-3"),
         
         dbc.Card([
             dbc.CardBody([
                 html.H5("Total de Hombres", className="card-title"),
                 html.P(f"{total_hombres}", className="card-text")
             ])
-        ], color="info", inverse=True),
+        ], color="info", inverse=True, className="m-3"),
         
         dbc.Card([
             dbc.CardBody([
                 html.H5("Total de Mujeres", className="card-title"),
                 html.P(f"{total_mujeres}", className="card-text")
             ])
-        ], color="danger", inverse=True),
+        ], color="danger", inverse=True, className="m-3"),
         
         dbc.Card([
             dbc.CardBody([
                 html.H5("Nivel de Formación más Común", className="card-title"),
                 html.P(nivel_formacion_comun, className="card-text")
             ])
-        ], color="warning", inverse=True),
+        ], color="warning", inverse=True, className="m-3"),
         
         dbc.Card([
             dbc.CardBody([
                 html.H5("Total de Docentes con Doctorado", className="card-title"),
                 html.P(f"{total_docentes_doctorado}", className="card-text")
             ])
-        ], color="success", inverse=True),
+        ], color="success", inverse=True, className="m-3"),
         
         dbc.Card([
             dbc.CardBody([
                 html.H5("Total de Mujeres con Doctorado", className="card-title"),
                 html.P(f"{total_mujeres_doctorado}", className="card-text")
             ])
-        ], color="secondary", inverse=True),
+        ], color="secondary", inverse=True, className="m-3"),
         
         dbc.Card([
             dbc.CardBody([
                 html.H5("Total de Hombres con Doctorado", className="card-title"),
                 html.P(f"{total_hombres_doctorado}", className="card-text")
             ])
-        ], color="dark", inverse=True),
+        ], color="dark", inverse=True, className="m-3"),
     ]
 
-    # Agrupar tarjetas en una fila con diseño de cuadrícula
-    return dbc.Row([dbc.Col(card, width=4) for card in tarjetas])
+    # Agrupar tarjetas en una fila con diseño de cuadrícula, asegurando que haya 3 tarjetas por fila en pantallas grandes y se ajusten en pantallas más pequeñas
+    return dbc.Row([dbc.Col(card, xl=4, lg=4, md=6, sm=12, xs=12) for card in tarjetas], className="g-3 justify-content-start")
+
+
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
